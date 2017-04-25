@@ -1,0 +1,48 @@
+﻿@using DbWarehouse.Models
+@model List<List<Cell>>
+
+<h2> Data Table</h2>
+
+@try
+{
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    @foreach(var row in Model.FirstOrDefault())
+                    {
+                        <th>@row.Title</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.First().First().Value != null)
+                {
+                    foreach(var row in Model)
+                    {
+                        <tr data-row-id='@row.First().Value'>
+                            @foreach(var column in row)
+                            {
+                                if (column.Title == "Id")
+                                {
+                                    <td style="width: 8%">
+                                        <input class="form-control input-sm disabled" disabled type="text" name="@column.Title" value="@column.Value" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <input class="form-control input-sm editable" type="text" name="@column.Title" value="@column.Value" />
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+}
+catch(Exception ex)
+{
+    <h3>Error</h3>
+    <p>@ex.Message</p>
+}

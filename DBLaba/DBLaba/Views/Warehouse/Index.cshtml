@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "База данных \"Склад\"";
+}
+
+<div class="container">
+    <div class="col-md-3 text-center text-aqua">
+        <nav class="col-md-10 navbar tableList">
+            <h3>Список таблиц</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-table" aria-hidden="true"></i> Продукты
+                    </button>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="">
+                        <i class="fa fa-table" aria-hidden="true"></i> Производители
+                    </button>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-table" aria-hidden="true"></i> Стеллажи
+                    </button>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-table" aria-hidden="true"></i> Размещение
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-9 text-center">
+        <div class="top form-group">
+            <p> <h3>Представления таблиц</h3></p>
+            <div id="tableView">
+                @{ Html.RenderPartial("Result");}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetTable(tableName) {
+        $('#posts-wrapper').empty();
+        $('#posts-wrapper').append('<p><i class="fa-li fa fa-spinner fa-spin"></i>Загрузка</p>');
+        var arg = {};
+        arg.tableName = $(tableName).val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Result", "Laboratory")',
+            contentType: "application/json; charset=utf-8",
+            data: arg,
+            dataType: "html",
+            success: function (data) {
+                $('#posts-wrapper').empty();
+                $('#posts-wrapper').append(data);
+            }
+        });
+    }
+</script>
